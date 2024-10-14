@@ -67,3 +67,31 @@ df.insert(6, '나이대',Age_Group)
 df.insert(7, '연령대',Age_Group2)
 
 df.to_csv(f"{DATA_PATH}netflix_userbase_preprocessed.csv")
+
+# 국가를 UCAN, EMEA, LATM, APAC으로 묶기
+region_mapping = {
+    # UCAN (United States and Canada)
+    'United States': 'UCAN', 'Canada': 'UCAN',
+    
+    # LATM (Latin America and Caribbean)
+    'Mexico': 'LATM', 'Brazil': 'LATM', 'Argentina': 'LATM', 'Chile': 'LATM',
+    'Colombia': 'LATM', 'Peru': 'LATM', 'Venezuela': 'LATM', 'Cuba': 'LATM',
+    'Ecuador': 'LATM', 'Panama': 'LATM', 'Uruguay': 'LATM',
+    
+    # EMEA (Europe, Middle East, and Africa)
+    'United Kingdom': 'EMEA', 'Germany': 'EMEA', 'France': 'EMEA', 'Spain': 'EMEA',
+    'South Africa': 'EMEA', 'Nigeria': 'EMEA', 'Egypt': 'EMEA', 'Italy': 'EMEA',
+    'Russia': 'EMEA', 'Turkey': 'EMEA', 'Saudi Arabia': 'EMEA', 'Ireland': 'EMEA',
+    'Netherlands': 'EMEA', 'Sweden': 'EMEA', 'Norway': 'EMEA', 'Denmark': 'EMEA',
+    'Finland': 'EMEA', 'Poland': 'EMEA', 'Portugal': 'EMEA', 'Greece': 'EMEA',
+    'Austria': 'EMEA', 'Belgium': 'EMEA', 'Switzerland': 'EMEA',
+    
+    # APAC (Asia Pacific)
+    'Australia': 'APAC', 'New Zealand': 'APAC', 'India': 'APAC', 'Japan': 'APAC',
+    'South Korea': 'APAC', 'China': 'APAC', 'Philippines': 'APAC', 'Thailand': 'APAC',
+    'Vietnam': 'APAC', 'Malaysia': 'APAC', 'Indonesia': 'APAC', 'Singapore': 'APAC',
+    'Hong Kong': 'APAC', 'Taiwan': 'APAC'
+}
+
+# Region Code 컬럼 추가 (netflix_userbase에만 적용, Country 컬럼 왼쪽에 위치)
+netflix_userbase.insert(5, 'Region Code', netflix_userbase['Country'].map(region_mapping).fillna('Other'))
